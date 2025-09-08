@@ -1,0 +1,28 @@
+services:
+  owattayo:
+    image: ghcr.io/backpaper0/owattayo
+    ports: ["8000:8000"]
+    networks: ["default", "devcontainers"]
+    restart: always
+    environment:
+      DISCORD_WEBHOOK_URL:
+      
+  gitlab-notification:
+    image: ghcr.io/backpaper0/gitlab-notification
+    networks: [default, devcontainers]
+    restart: always
+    environment:
+      GITLAB_PERSONAL_ACCESS_TOKEN:
+      GITLAB_TODOS_API_ENDPOINT:
+      OWATTAYO_API_ENDPOINT:
+      DB_PATH: "/var/gitlab-notification/gitlab-notification.db"
+    volumes:
+      - "gitlab-notification:/var/gitlab-notification"
+    depends_on: ["owattayo"]
+
+volumes:
+  gitlab-notification: {}
+
+networks:
+  devcontainers:
+    external: true
