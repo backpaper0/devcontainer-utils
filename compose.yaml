@@ -19,6 +19,8 @@ services:
     volumes:
       - "gitlab-notification:/var/gitlab-notification"
     depends_on: ["owattayo"]
+    profiles:
+      - gitlab
 
 volumes:
   gitlab-notification: {}
